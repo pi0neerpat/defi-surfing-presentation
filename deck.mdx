@@ -1,39 +1,125 @@
 import { Head } from "mdx-deck";
 import Code from 'mdx-code';
-import GraphQuery from './components/graphQuery'
 
-export { default as theme } from './theme'
+import myTheme from './theme'
+
+import GraphQuery from './components/GraphQuery'
+import Counter from './components/Counter'
+
+export const theme = myTheme
 
 <Head><title>Defi Surfing</title></Head>
 
+# Defi Surfing 🏄🏻
 
-# Catch a money stream wave 🏄🏻
+Ride the Superfluid Wave 
 
 ```js
-const SuperfluidSDK = require("@superfluid-finance/js-sdk");
+alice.flow(bob.address, 10000000)
 ```
 
 ---
 
-# Fetching data
+# JS-SDK Setup
+
+📖 Docs [here](https://docs.superfluid.finance/superfluid/protocol-tutorials/frontend-+-nodejs)
+
+```bash
+yarn add @superfluid-finance/js-sdk \
+@ethersproject/contracts @ethersproject/providers
+```
+
+```js
+const SuperfluidSDK = require("@superfluid-finance/js-sdk");
+const { Web3Provider } = require("@ethersproject/providers");
+
+const sf = new SuperfluidSDK.Framework({
+    ethers: new Web3Provider(window.ethereum)
+});
+await sf.initialize()
+```
+
+--- 
+
+# Open & Close Streams
+
+- 🧾 Token [list](https://docs.superfluid.finance/superfluid/networks/networks)
+- Update by changing flowRate
+
+```js
+const carol = sf.user({
+    address: walletAddress,
+    token: '0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00'
+});
+
+await carol.flow({
+    recipient: '0xA8f3447922d786045CB582B0C825723B744a54df',
+    // 1000 tokens per month, for a token with 18 decimals
+    flowRate: '385802469135802'
+});
+```
+
+---
+
+# Fetching Data
+
+- [Playground](https://thegraph.com/explorer/subgraph/superfluid-finance/superfluid-xdai) from The Graph
+- Axios or Apollo
+- 📖 Docs + learning resources [here](https://docs.superfluid.finance/superfluid/docs/subgraph)
+
+```js
+const query = `{
+    account(id: "0x000deb0c92e6d3da7f77ed01b8473b3f7f4efc39") {
+        flowsOwned {
+            flowRate
+            sum
+            lastUpdate
+        }
+    }
+  }
+`
+const result = await axios.post(QUERY_URL, { query })`}
+```
+
+---
+
+# Query example  
 
 <GraphQuery/>
 
 ---
 
-# Batch Call
+# Calculating Totals
 
-# Representing value over time
+- Big Numbers packages: `bn.js` or `@ethersproject/units`
+
+<Code>
+
+```js
+const now = new Date() 
+const THREE_HOURS_AGO = new Date(now - 3 * 3600); 
+const lastUpdate = THREE_HOURS_AGO
+const sum = 0
+const flowRate = 0.00027778 // 1 per hour
+
+const totalFlowed = sum + flowRate * (now - lastUpdate)
+
+console.log(`Total flowed: ${totalFlowed} tokens`)
+```
+
+</Code>
 
 ---
 
-# Open & Close Streams
+# Representing value over time
 
-Install the package
+<Counter initialValue={1000000} rate={.00027778}/>
 
-```bash
-yarn add @superfluid-finance/js-sdk @ethersproject/contracts @ethersproject/providers
-```
+---
+
+
+
+# Batch Call
 
 ---
 

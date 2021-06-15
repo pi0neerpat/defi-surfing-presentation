@@ -1,21 +1,17 @@
 import { themes } from 'mdx-deck'
-// import prismStyle from 'react-syntax-highlighter/styles/prism/solarizedlight'
 
 export default {
-  ...themes.default,
   ...themes.prism,
-  // prism: {
-  //   style: prismStyle
-  // }
+  ...themes.hack,
   // fonts: {
   //   body: 'Roboto, sans-serif',
   //   monospace: '"Roboto Mono", monospace',
   // },
-  // colors: {
-  //   text: 'white',
-  //   background: 'black',
-  //   primary: 'blue',
-  // },
+  colors: {
+    text: 'black',
+    background: 'white',
+    primary: 'blue',
+  },
 }
 
   // Customize your presentation theme here.
