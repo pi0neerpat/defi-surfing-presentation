@@ -1,7 +1,7 @@
 import theme from "mdx-deck/themes";
 
 export default {
-  ...theme
+  ...theme.prism
 
   // Customize your presentation theme here.
   //
