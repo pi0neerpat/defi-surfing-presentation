@@ -8,9 +8,9 @@ import Counter from './components/Counter'
 
 export const theme = myTheme
 
-<Head><title>Defi Surfing</title></Head>
+<Head><title>Defi Surfing w/ Superfluid</title></Head>
 
-# Defi Surfing 🏄🏻
+# Defi Surfing w/ Superfluid 🏄🏻
 
 Ride the Superfluid Wave 
 
@@ -59,12 +59,36 @@ await carol.flow({
 });
 ```
 
+--- 
+
+# 🧮 Flow Rate Calculation
+
+
+<Code>
+
+```js 
+const oneMinute = 60;
+const oneHour = 60 * oneMinute;
+const oneDay = 24 * oneHour;
+const oneMonth = 30 * oneDay;
+
+const onePerHour = 1e18 / oneHour;
+const onePerMonth = 1e18 / oneMonth;
+
+console.log(`1 token per hour: ${onePerHour.toFixed(0)} tokens (wei) / second`);
+console.log(`1 token per month: ${onePerMonth.toFixed(0)} tokens (wei) / second`);
+```
+
+</Code>
+
+
+- Pay attention to units! See [Solidity docs](https://docs.soliditylang.org/en/v0.8.5/units-and-global-variables.html?highlight=wei#ether-units)
 ---
 
-# Fetching Data
+# 📡 Fetch Data
 
+- Accounts, flows, token events, transactions
 - [Playground](https://thegraph.com/explorer/subgraph/superfluid-finance/superfluid-xdai) from The Graph
-- Axios or Apollo
 - 📖 Docs + learning resources [here](https://docs.superfluid.finance/superfluid/docs/subgraph)
 
 ```js
@@ -74,24 +98,28 @@ const query = `{
             flowRate
             sum
             lastUpdate
+            token { 
+                id
+                symbol
+            }
         }
     }
   }
 `
-const result = await axios.post(QUERY_URL, { query })`}
+const result = await axios.post(QUERY_URL, { query })
 ```
 
 ---
 
-# Query example  
+# 📡 Fetch Data - Example  
 
 <GraphQuery/>
+
+- See the React component above in `/components/GraphQuery.js`
 
 ---
 
 # Calculating Totals
-
-- Big Numbers packages: `bn.js` or `@ethersproject/units`
 
 <Code>
 
@@ -109,58 +137,50 @@ console.log(`Total flowed: ${totalFlowed} tokens`)
 
 </Code>
 
+- Use a Big Number library like `bn.js` or `@ethersproject/units`
+
 ---
 
-# Representing value over time
+# Streams are ALIVE! 🧟
+
+```js
+const interestEarnedIn2Seconds = rate * 2
+React.useEffect(() => {
+    const timer = setTimeout(() => {
+        setCount(count + interestEarnedIn2Seconds);
+    }, 2000);
+    return () => clearTimeout(timer);
+});
+```
 
 <Counter initialValue={1000000} rate={.00027778}/>
 
+- See the React component above in `/components/Counter.js`
+---
+
+# 🌄 Your Adventure Awaits
+
+## Super Tokens 🦸
+
+- **Streams**: Move tokens over time
+- **ERC777**:  Tokens which can "react" to certain events using callbacks. Learn about the standard at https://erc777.org
+- **Batch Call**: Have you ever wanted to execute 100 transactions at the same time? Learn how in the [docs](https://docs.superfluid.finance/superfluid/docs/batch-call).
+
+## Super Apps 🤖
+
+Automated flows, NFTs, games, etc.
+
+---
+
+# 🤝 Get Help 
+
+[🛠️ Examples](https://docs.superfluid.finance/superfluid/resources/examples) to get started
+
+Come say hello! http://discord.superfluid.finance
+
 ---
 
 
-
-# Batch Call
-
----
-
-# Query the data using The Graph
-
- streamed so far
-
-# Representing read numbers
-
-- Thinking of streams as "alive"
-- Showing a moving number in JavaScript
-
----
-
-# Calculate flow rate
-
-<Highlighter language='bash'>
-{`yarn add @ethersproject/units`}
-</Highlighter>
-
-
-<Code>
-```
-
-```
-```js 
-const oneMinute = 60;
-const oneHour = 60 * oneMinute;
-const oneDay = 24 * oneHour;
-const oneMonth = 30 * oneDay;
-
-const onePerHour = 1 / oneHour;
-const onePerMonth = 1 / oneMonth;
-
-const onePerMonthBn = new Bignumber.from(onePerMonth);
-
-console.log(`1 token per month flowRate: ${onePerMonthBn} tokens/s`);
-```
-</Code>
-
----
 
 
 

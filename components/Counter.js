@@ -6,7 +6,7 @@ const Counter = ({initialValue, rate}) => {
     
     const targetRef = React.useRef(null);
     useOdometer(targetRef, count, {
-        format: "(,ddd).ddddd"
+        format: "(,ddd).dddd"
     });
 
     const interestEarnedIn2Seconds = rate * 2

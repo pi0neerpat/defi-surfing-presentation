@@ -13,6 +13,10 @@ const query = `
             flowRate
             sum
             lastUpdate
+            token { 
+                id
+                symbol
+            }
         }
     }
   }
@@ -31,7 +35,7 @@ const GraphQuery = () => {
     return (
         <>
             User address: {USER_ADDRESS}<br/>
-            Ntwork: {NETWORK_NAME}
+            Network: {NETWORK_NAME}
             <JsonToTable json={data} />
         </>
     )
